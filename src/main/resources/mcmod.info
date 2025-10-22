@@ -1,0 +1,16 @@
+[
+{
+  "modid": "bwchatstats",
+  "name": "Bedwars Chat Stats",
+  "description": "Sends a message to your party with information about the current bedwars game's enemy stats",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://luckyc.dev",
+  "updateUrl": "",
+  "authorList": ["luckycdev"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
