@@ -1,6 +1,6 @@
 package dev.luckyc.bwchatstats;
 
-import dev.luckyc.bwchatstats.commands.ExampleCommand;
+import dev.luckyc.bwchatstats.commands.bwcsCommand;
 import dev.luckyc.bwchatstats.config.ConfigHandler;
 import dev.luckyc.bwchatstats.events.ExampleKeybindListener;
 import dev.luckyc.bwchatstats.hud.ExampleHUD;
@@ -34,7 +34,7 @@ public class bwchatstats {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         // register your commands here
-        ClientCommandHandler.instance.registerCommand(new ExampleCommand());
+        ClientCommandHandler.instance.registerCommand(new bwcsCommand());
 
         // the ExampleKeybind has a method with the @SubscribeEvent annotation
         // for that code to run, that class needs to be registered on the MinecraftForge EVENT_BUS
