@@ -7,6 +7,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,11 +21,11 @@ public class bwcsCommand extends CommandBase {
 
     @Override
     public String getCommandName() {
-        return "bedwarschatstats";
+        return "bwchatstats";
     }
 
     @Override
-    public List<String> getCommandAliases() { return Collections.singletonList("bwcs"); } // TODO is Collections.singletonList best option for single item list?
+    public List<String> getCommandAliases() { return new ArrayList<>(Arrays.asList("bwcs", "bedwarschatstats")); }
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
@@ -112,7 +114,7 @@ public class bwcsCommand extends CommandBase {
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
         // when you type the command and press tab complete,
         // this method will allow you to cycle through the words that match what you typed
-        final String[] options = new String[]{"setapikey", "getapikey", "test"};
+        final String[] options = new String[]{"help", "toggle", "setapikey", "getapikey", "test"};
         return getListOfStringsMatchingLastWord(args, options);
     }
 
