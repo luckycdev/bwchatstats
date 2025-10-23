@@ -44,12 +44,15 @@ public class HypixelAPI {//TODO check toggled and check if api key is empty some
             int wins = bedwarsStats.get("wins_bedwars").getAsInt();
             int losses = bedwarsStats.get("losses_bedwars").getAsInt();
 
+            int winstreak = bedwarsStats.get("winstreak").getAsInt();
+
             JsonObject result = new JsonObject();
-            result.addProperty("bedwars_level", star);
-            result.addProperty("final_kills_bedwars", finalKills);
-            result.addProperty("final_deaths_bedwars", finalDeaths);
-            result.addProperty("wins_bedwars", wins);
-            result.addProperty("losses_bedwars", losses);
+            result.addProperty("star", star);
+            result.addProperty("fk", finalKills);
+            result.addProperty("fd", finalDeaths);
+            result.addProperty("wins", wins);
+            result.addProperty("losses", losses);
+            result.addProperty("ws", winstreak);
 
             return result;
 

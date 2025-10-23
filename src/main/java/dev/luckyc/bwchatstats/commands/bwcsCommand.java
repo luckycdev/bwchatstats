@@ -1,18 +1,12 @@
 package dev.luckyc.bwchatstats.commands;
 
-import com.google.gson.JsonObject;
-import dev.luckyc.bwchatstats.api.HypixelAPI;
 import dev.luckyc.bwchatstats.config.ConfigHandler;
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class bwcsCommand extends CommandBase {
 
@@ -22,7 +16,7 @@ public class bwcsCommand extends CommandBase {
     }
 
     @Override
-    public List<String> getCommandAliases() { return new ArrayList<>(Arrays.asList("bwcs", "bedwarschatstats")); }
+    public List<String> getCommandAliases() { return new ArrayList<>(Arrays.asList("bwcs", "bedwarschatstats")); }//TODO allow caps
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
@@ -73,15 +67,6 @@ public class bwcsCommand extends CommandBase {
             sender.addChatMessage(new ChatComponentText("[BWCS] API Key: " + ConfigHandler.configAPIKey)); //TODO click to copy
         }
 
-        if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
-            if (args.length < 2) {
-                sender.addChatMessage(new ChatComponentText("[BWCS] Usage: /bwcs test <name>"));
-                return;
-            }
-            HypixelAPI api = new HypixelAPI();
-            JsonObject result = api.getPlayerData(args[1]);
-            sender.addChatMessage(new ChatComponentText("[BWCS] " + result.toString()));
-        }
     }
 
     @Override
