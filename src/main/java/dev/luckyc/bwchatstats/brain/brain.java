@@ -3,13 +3,14 @@ package dev.luckyc.bwchatstats.brain;
 import com.google.gson.JsonObject;
 import dev.luckyc.bwchatstats.api.HypixelAPI;
 
+import dev.luckyc.bwchatstats.utils.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.ChatComponentText;
 
 import java.util.*;
 
-public class brain {//TODO LAG
+public class brain {
 
     public static Map<String, List<String>> getTeams() {
         Minecraft mc = Minecraft.getMinecraft();
@@ -78,52 +79,55 @@ public class brain {//TODO LAG
     }
 
     public void calculate() {
-        Map<String, List<String>> teams = getTeams();
-        HypixelAPI api = new HypixelAPI();
+        Multithreading.runAsync(() -> {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {} // wait 500ms for tab to fill
+            Map<String, List<String>> teams = getTeams();
+            HypixelAPI api = new HypixelAPI();
 
-        List<String> teamMessages = new ArrayList<>();
+            List<String> teamMessages = new ArrayList<>();
 
-        for (Map.Entry<String, List<String>> entry : teams.entrySet()) {
-            String teamName = entry.getKey();
-            List<String> players = entry.getValue();
+            for (Map.Entry<String, List<String>> entry : teams.entrySet()) {
+                String teamName = entry.getKey();
+                List<String> players = entry.getValue();
 
-            int totalStars = 0;
-            int totalFK = 0;
-            int totalFD = 0;
-            int totalWins = 0;
-            int totalLosses = 0;
-            int highestWS = 0;
+                int totalStars = 0;
+                int totalFK = 0;
+                int totalFD = 0;
+                int totalWins = 0;
+                int totalLosses = 0;
+                int highestWS = 0;
 
-            for (String playerName : players) {
-                JsonObject stats = api.getPlayerData(playerName);
-                if (stats != null) {
-                    totalStars += stats.get("star").getAsInt();
-                    totalFK += stats.get("fk").getAsInt();
-                    totalFD += stats.get("fd").getAsInt();
-                    totalWins += stats.get("wins").getAsInt();
-                    totalLosses += stats.get("losses").getAsInt();
+                for (String playerName : players) {
+                    JsonObject stats = api.getPlayerData(playerName);
+                    if (stats != null) {
+                        totalStars += stats.get("star").getAsInt();
+                        totalFK += stats.get("fk").getAsInt();
+                        totalFD += stats.get("fd").getAsInt();
+                        totalWins += stats.get("wins").getAsInt();
+                        totalLosses += stats.get("losses").getAsInt();
 
-                    int ws = stats.get("ws").getAsInt();
-                    if (ws > highestWS) highestWS = ws;
+                        int ws = stats.get("ws").getAsInt();
+                        if (ws > highestWS) highestWS = ws;
+                    }
                 }
+
+                double fkdr = totalFD == 0 ? totalFK : ((double) totalFK / totalFD);
+                double wlr = totalLosses == 0 ? totalWins : ((double) totalWins / totalLosses);
+
+                StringBuilder message = new StringBuilder();
+                message.append(teamName.toUpperCase()).append(" TEAM: ")
+                        .append("Stars: ").append(totalStars)
+                        .append(", FKDR: ").append(String.format("%.2f", fkdr))
+                        .append(", WLR: ").append(String.format("%.2f", wlr));
+
+                if (highestWS > 50) {
+                    message.append(", WS: ").append(highestWS);
+                }
+
+                teamMessages.add(message.toString());
             }
-
-            double fkdr = totalFD == 0 ? totalFK : ((double) totalFK / totalFD);
-            double wlr = totalLosses == 0 ? totalWins : ((double) totalWins / totalLosses);
-
-            StringBuilder message = new StringBuilder();
-            message.append(teamName.toUpperCase()).append(" TEAM: ")
-                    .append("Stars: ").append(totalStars)
-                    .append(", FKDR: ").append(String.format("%.2f", fkdr))
-                    .append(", WLR: ").append(String.format("%.2f", wlr));
-
-            if (highestWS > 50) {
-                message.append(", WS: ").append(highestWS);
-            }
-
-            teamMessages.add(message.toString());
-        }
-        new Thread(() -> {
             for (String msg : teamMessages) {
                 Minecraft.getMinecraft().addScheduledTask(() ->
                         Minecraft.getMinecraft().thePlayer.sendChatMessage("/pc " + msg)//TODO order and say who to target
@@ -131,9 +135,10 @@ public class brain {//TODO LAG
 
                 try {
                     Thread.sleep(500); // 0.5 sec delay
-                } catch (InterruptedException ignored) {}
+                } catch (InterruptedException ignored) {
+                }
             }
-        }).start();
+        });
     }
 //TODO function to check if theyre nicked (if 0.00 stats then /w name)
 }
