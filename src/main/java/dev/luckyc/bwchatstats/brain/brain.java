@@ -9,7 +9,7 @@ import net.minecraft.util.ChatComponentText;
 
 import java.util.*;
 
-public class brain {
+public class brain {//TODO LAG
 
     public static Map<String, List<String>> getTeams() {
         Minecraft mc = Minecraft.getMinecraft();
@@ -37,14 +37,30 @@ public class brain {
             char colorPrefix = !cleanPrefix.isEmpty() ? cleanPrefix.charAt(0) : ' ';
 
             switch (colorPrefix) {
-                case 'a': teams.get("green").add(username); break;
-                case 'c': teams.get("red").add(username); break;
-                case '9': teams.get("blue").add(username); break;
-                case 'e': teams.get("yellow").add(username); break;
-                case 'f': teams.get("white").add(username); break;
-                case '8': teams.get("gray").add(username); break;
-                case 'd': teams.get("pink").add(username); break;
-                case 'b': teams.get("aqua").add(username); break;
+                case 'a' :
+                    teams.get("green").add(username);
+                    break;
+                case 'c' :
+                    teams.get("red").add(username);
+                    break;
+                case '9' :
+                    teams.get("blue").add(username);
+                    break;
+                case 'e' :
+                    teams.get("yellow").add(username);
+                    break;
+                case 'f' :
+                    teams.get("white").add(username);
+                    break;
+                case '8' :
+                    teams.get("gray").add(username);
+                    break;
+                case 'd' :
+                    teams.get("pink").add(username);
+                    break;
+                case 'b' :
+                    teams.get("aqua").add(username);
+                    break;
             }
         }
 
@@ -64,6 +80,8 @@ public class brain {
     public void calculate() {
         Map<String, List<String>> teams = getTeams();
         HypixelAPI api = new HypixelAPI();
+
+        List<String> teamMessages = new ArrayList<>();
 
         for (Map.Entry<String, List<String>> entry : teams.entrySet()) {
             String teamName = entry.getKey();
@@ -103,10 +121,19 @@ public class brain {
                 message.append(", WS: ").append(highestWS);
             }
 
-            Minecraft.getMinecraft().thePlayer.addChatMessage(
-                    new ChatComponentText(message.toString())//TODO send to party chat
-            );
+            teamMessages.add(message.toString());
         }
+        new Thread(() -> {
+            for (String msg : teamMessages) {
+                Minecraft.getMinecraft().addScheduledTask(() ->
+                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/pc " + msg)//TODO order and say who to target
+                );
+
+                try {
+                    Thread.sleep(500); // 0.5 sec delay
+                } catch (InterruptedException ignored) {}
+            }
+        }).start();
     }
-//TODO function to check if theyre nicked (if 0.00 stats then (/w name)
+//TODO function to check if theyre nicked (if 0.00 stats then /w name)
 }

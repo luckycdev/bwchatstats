@@ -29,8 +29,8 @@ public class bwcsCommand extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) {//TODO when "/bwcs aaaa" is run nothing is shown
-        if (args.length == 0 || args[0].equalsIgnoreCase("help")) { //TODO colors
+    public void processCommand(ICommandSender sender, String[] args) {//TODO when "/bwcs aaaa" is run nothing is shown - it should probably show /bwcs help output
+        if (args.length == 0 || args[0].equalsIgnoreCase("help")) { //TODO colors & formatting to look nicer
             sender.addChatMessage(new ChatComponentText("Bedwars Chat Stats by luckyc"));
             sender.addChatMessage(new ChatComponentText("/bwcs help"));
             sender.addChatMessage(new ChatComponentText("/bwcs toggle"));
