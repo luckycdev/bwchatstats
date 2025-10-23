@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HypixelAPI {//TODO check toggled and check if api key is empty somewhere else
+public class HypixelAPI {
 
     public JsonObject getPlayerData(String name) {
         try {
