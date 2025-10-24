@@ -31,7 +31,7 @@ public class bwcsCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {//TODO when "/bwcs aaaa" is run nothing is shown - it should probably show /bwcs help output
         if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
-            sender.addChatMessage(new ChatComponentText("§c-----Bedwars §fChat Stats §bby luckycdev§c-----"));
+            sender.addChatMessage(new ChatComponentText("§c---- Bedwars §fChat Stats §bby luckycdev §c----"));//TODO doesnt line up perfectly
             sender.addChatMessage(new ChatComponentText("§6- §f/bwcs help"));
             sender.addChatMessage(new ChatComponentText("§6- §f/bwcs toggle"));
             sender.addChatMessage(new ChatComponentText("§6- §f/bwcs setapikey §e<key>"));

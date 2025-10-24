@@ -92,16 +92,16 @@ public class brain {
                 List<String> players = entry.getValue();
 
                 int totalStars = 0;
-                int combinedFKDR = 0;
-                int combinedWLR = 0;
+                double combinedFKDR = 0;
+                double combinedWLR = 0;
                 int highestWS = 0;
 
                 for (String playerName : players) {
                     JsonObject stats = api.getPlayerData(playerName);
                     if (stats != null) {
                         totalStars += stats.get("star").getAsInt();
-                        combinedFKDR += stats.get("fkdr").getAsInt();
-                        combinedWLR += stats.get("wins").getAsInt();
+                        combinedFKDR += stats.get("fkdr").getAsDouble();
+                        combinedWLR += stats.get("wlr").getAsDouble();
 
                         int ws = stats.get("ws").getAsInt();
                         if (ws > highestWS) highestWS = ws;
