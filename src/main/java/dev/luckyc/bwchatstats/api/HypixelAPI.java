@@ -40,18 +40,18 @@ public class HypixelAPI {
 
             int finalKills = bedwarsStats.get("final_kills_bedwars").getAsInt();
             int finalDeaths = bedwarsStats.get("final_deaths_bedwars").getAsInt();
+            double fkdr = finalDeaths == 0 ? finalKills : ((double) finalKills / finalDeaths);
 
             int wins = bedwarsStats.get("wins_bedwars").getAsInt();
             int losses = bedwarsStats.get("losses_bedwars").getAsInt();
+            double wlr = losses == 0 ? wins : ((double) wins / losses);
 
             int winstreak = bedwarsStats.get("winstreak").getAsInt();
 
             JsonObject result = new JsonObject();
             result.addProperty("star", star);
-            result.addProperty("fk", finalKills);
-            result.addProperty("fd", finalDeaths);
-            result.addProperty("wins", wins);
-            result.addProperty("losses", losses);
+            result.addProperty("fkdr", fkdr);
+            result.addProperty("wlr", wlr);
             result.addProperty("ws", winstreak);
 
             return result;

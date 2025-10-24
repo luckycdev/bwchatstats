@@ -2,13 +2,9 @@
 
 mod that sends information about your hypixel bedwars enemies to your party chat
 
-WIP
-
 ## Roadmap / to-do list
-- lags whole game when checking stats
 - allow caps in aliases
 - when "/bwcs aaaa" is run nothing is shown - it should probably show /bwcs help output
-- all commands colors & formatting to look nicer
 - click to copy in /bwcs getapikey
 - order team messages and say who to target
 - brain function to check if theyre nicked (if 0.00 stats then /w name) and warn if they are
@@ -16,7 +12,11 @@ WIP
 - check if key is invalid so it doesnt give wrong info
 - i might want to find a new method for checking when game starts, lowcraw doesnt work bc i cant tell when it starts. i could use scoreboard
 - make it so if youre in solos it just shows client side msgs not party chat msgs
-
-
-
+- mod update checker based off github releases
+- fully make everything error proof
+- command to check stats of a username
+- command to get info about party members (/pl and intercept the msg to not show it to the player)
+- change fkdr and wlr to combined, not total
+- check if you are nicked if it will remove your team or not
+---
 <sub>template credit: https://github.com/Alexdoru/ExampleMod1.8.9/</sub>

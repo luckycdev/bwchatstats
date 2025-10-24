@@ -6,7 +6,6 @@ import dev.luckyc.bwchatstats.api.HypixelAPI;
 import dev.luckyc.bwchatstats.utils.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.util.ChatComponentText;
 
 import java.util.*;
 
@@ -93,34 +92,27 @@ public class brain {
                 List<String> players = entry.getValue();
 
                 int totalStars = 0;
-                int totalFK = 0;
-                int totalFD = 0;
-                int totalWins = 0;
-                int totalLosses = 0;
+                int combinedFKDR = 0;
+                int combinedWLR = 0;
                 int highestWS = 0;
 
                 for (String playerName : players) {
                     JsonObject stats = api.getPlayerData(playerName);
                     if (stats != null) {
                         totalStars += stats.get("star").getAsInt();
-                        totalFK += stats.get("fk").getAsInt();
-                        totalFD += stats.get("fd").getAsInt();
-                        totalWins += stats.get("wins").getAsInt();
-                        totalLosses += stats.get("losses").getAsInt();
+                        combinedFKDR += stats.get("fkdr").getAsInt();
+                        combinedWLR += stats.get("wins").getAsInt();
 
                         int ws = stats.get("ws").getAsInt();
                         if (ws > highestWS) highestWS = ws;
                     }
                 }
 
-                double fkdr = totalFD == 0 ? totalFK : ((double) totalFK / totalFD);
-                double wlr = totalLosses == 0 ? totalWins : ((double) totalWins / totalLosses);
-
                 StringBuilder message = new StringBuilder();
                 message.append(teamName.toUpperCase()).append(" TEAM: ")
                         .append("Stars: ").append(totalStars)
-                        .append(", FKDR: ").append(String.format("%.2f", fkdr))
-                        .append(", WLR: ").append(String.format("%.2f", wlr));
+                        .append(", FKDR: ").append(String.format("%.2f", combinedFKDR))
+                        .append(", WLR: ").append(String.format("%.2f", combinedWLR));
 
                 if (highestWS > 50) {
                     message.append(", WS: ").append(highestWS);

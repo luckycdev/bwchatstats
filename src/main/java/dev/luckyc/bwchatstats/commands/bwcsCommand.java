@@ -30,12 +30,13 @@ public class bwcsCommand extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {//TODO when "/bwcs aaaa" is run nothing is shown - it should probably show /bwcs help output
-        if (args.length == 0 || args[0].equalsIgnoreCase("help")) { //TODO colors & formatting to look nicer
-            sender.addChatMessage(new ChatComponentText("Bedwars Chat Stats by luckyc"));
-            sender.addChatMessage(new ChatComponentText("/bwcs help"));
-            sender.addChatMessage(new ChatComponentText("/bwcs toggle"));
-            sender.addChatMessage(new ChatComponentText("/bwcs setapikey <key>"));
-            sender.addChatMessage(new ChatComponentText("/bwcs getpaikey"));
+        if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
+            sender.addChatMessage(new ChatComponentText("§c-----Bedwars §fChat Stats §bby luckycdev§c-----"));
+            sender.addChatMessage(new ChatComponentText("§6- §f/bwcs help"));
+            sender.addChatMessage(new ChatComponentText("§6- §f/bwcs toggle"));
+            sender.addChatMessage(new ChatComponentText("§6- §f/bwcs setapikey §e<key>"));
+            sender.addChatMessage(new ChatComponentText("§6- §f/bwcs getpaikey"));
+            sender.addChatMessage(new ChatComponentText("§c------------§f-------------§c------------"));
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("toggle")) {
@@ -44,27 +45,27 @@ public class bwcsCommand extends CommandBase {
 
             String toggledWord;
             if (ConfigHandler.configToggled) {
-                toggledWord = "on";
+                toggledWord = "§aon";
             } else {
-                toggledWord = "off";
+                toggledWord = "§coff";
             }
 
-            sender.addChatMessage(new ChatComponentText("[BWCS] Bedwars Chat Stats toggled " + toggledWord));
+            sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§f Bedwars Chat Stats toggled " + toggledWord));
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("setapikey")) {
             if (args.length < 2) {
-                sender.addChatMessage(new ChatComponentText("[BWCS] Usage: /bwcs setapikey <key>"));
+                sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§f Usage: /bwcs setapikey §e<key>"));
                 return;
             }
 
             ConfigHandler.configAPIKey = args[1];
             ConfigHandler.saveConfig();
-            sender.addChatMessage(new ChatComponentText("[BWCS] API key set to: " + args[1]));
+            sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§f API key set to: §e" + args[1]));
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("getapikey")) {
-            sender.addChatMessage(new ChatComponentText("[BWCS] API Key: " + ConfigHandler.configAPIKey)); //TODO click to copy
+            sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§f API Key: §e" + ConfigHandler.configAPIKey)); //TODO click to copy
         }
 
     }

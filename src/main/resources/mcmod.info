@@ -2,7 +2,7 @@
 {
   "modid": "bwchatstats",
   "name": "Bedwars Chat Stats",
-  "description": "mod that sends information about your bedwars enemies to your party chat",
+  "description": "mod that sends information about your bedwars enemies to your party chat\nrun /bwcs help for more info",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://luckyc.dev",
