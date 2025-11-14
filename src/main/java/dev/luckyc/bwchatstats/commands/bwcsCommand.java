@@ -1,10 +1,12 @@
 package dev.luckyc.bwchatstats.commands;
 
+import dev.luckyc.bwchatstats.bwchatstats;
 import dev.luckyc.bwchatstats.config.ConfigHandler;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.*;
 
@@ -36,10 +38,15 @@ public class bwcsCommand extends CommandBase {
             sender.addChatMessage(new ChatComponentText("§6- §f/bwcs toggle"));
             sender.addChatMessage(new ChatComponentText("§6- §f/bwcs setapikey §e<key>"));
             sender.addChatMessage(new ChatComponentText("§6- §f/bwcs getpaikey"));
-            sender.addChatMessage(new ChatComponentText("§c------------§f-------------§c------------"));
+            sender.addChatMessage(new ChatComponentText("§c------------§f--------------§c------------"));
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("toggle")) {
+            if (!ConfigHandler.configToggled && ConfigHandler.configAPIKey.isEmpty()) {
+                sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§cl API key not set! §cRun §f/bwcs setapikey §e<key> §cfirst"));
+                return;
+            }
+
             ConfigHandler.configToggled = !ConfigHandler.configToggled;
             ConfigHandler.saveConfig();
 
@@ -50,7 +57,12 @@ public class bwcsCommand extends CommandBase {
                 toggledWord = "§coff";
             }
 
-            sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§f Bedwars Chat Stats toggled " + toggledWord));
+            ConfigHandler.saveConfig();
+
+            String toggledState = ConfigHandler.configToggled ? "§aON" : "§cOFF";
+            sender.addChatMessage(new ChatComponentText(
+                    "§7[§cBW§fCS§7]§f Bedwars Chat Stats toggled " + toggledState
+            ));
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("setapikey")) {
@@ -61,11 +73,16 @@ public class bwcsCommand extends CommandBase {
 
             ConfigHandler.configAPIKey = args[1];
             ConfigHandler.saveConfig();
-            sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§f API key set to: §e" + args[1]));
+            sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§f API key set to: §e" + args[1])); //TODO click to copy
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("getapikey")) {
-            sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§f API Key: §e" + ConfigHandler.configAPIKey)); //TODO click to copy
+            if (ConfigHandler.configAPIKey.isEmpty()) {
+                sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§c§l API key not set! §cRun §f/bwcs setapikey §e<key> §cfirst"));
+            }
+            else {
+                sender.addChatMessage(new ChatComponentText("§7[§cBW§fCS§7]§f API Key: §e" + ConfigHandler.configAPIKey)); //TODO click to copy
+            }
         }
 
     }

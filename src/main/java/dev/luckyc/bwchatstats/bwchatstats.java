@@ -17,7 +17,7 @@ public class bwchatstats {
 
     public static final String MODID = "bwchatstats";
     public static final String MODNAME = "Bedwars Chat Stats";
-    public static final String VERSION = "0.3";
+    public static final String VERSION = "0.4";
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
